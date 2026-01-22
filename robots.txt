@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://santiago-mj.com/sitemap.xml
