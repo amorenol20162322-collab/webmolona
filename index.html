@@ -1,13 +1,170 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>67</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Antonio Domínguez - Mola Mazo</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background: linear-gradient(135deg, #111, #1f1f1f);
+        color: white;
+        overflow-x: hidden;
+    }
+
+    header {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: linear-gradient(45deg, #ff00cc, #3333ff);
+        animation: gradient 8s ease infinite alternate;
+    }
+
+    @keyframes gradient {
+        0% { background: linear-gradient(45deg, #ff00cc, #3333ff); }
+        100% { background: linear-gradient(45deg, #00f2fe, #4facfe); }
+    }
+
+    header h1 {
+        font-size: 4rem;
+        font-weight: 800;
+        letter-spacing: 2px;
+        animation: fadeIn 2s ease;
+    }
+
+    header p {
+        font-size: 1.5rem;
+        margin-top: 1rem;
+        opacity: 0.9;
+        animation: fadeIn 3s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn {
+        margin-top: 2rem;
+        padding: 1rem 2rem;
+        background: white;
+        color: #333;
+        border: none;
+        border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn:hover {
+        background: #000;
+        color: white;
+        transform: scale(1.1);
+    }
+
+    section {
+        padding: 5rem 2rem;
+        text-align: center;
+    }
+
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .card {
+        background: #222;
+        padding: 2rem;
+        border-radius: 15px;
+        width: 280px;
+        transition: 0.3s;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        background: #333;
+    }
+
+    footer {
+        padding: 2rem;
+        text-align: center;
+        background: #000;
+        font-size: 0.9rem;
+        opacity: 0.7;
+    }
+
+    @media(max-width: 768px) {
+        header h1 {
+            font-size: 2.5rem;
+        }
+        .card-container {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
 </head>
 <body>
 
-    <h1>Hola mundo</h1>
-    <p><br>Este es </br>un párrafo.</p>
+<header>
+    <h1>Antonio Domínguez</h1>
+    <p>Simplemente... MOLA MAZO 🚀</p>
+    <button class="btn" onclick="scrollToSection()">Descubre más</button>
+</header>
+
+<section id="about">
+    <h2>¿Quién es Antonio?</h2>
+    <p style="margin-top:1rem; max-width:600px; margin-left:auto; margin-right:auto;">
+        Antonio Domínguez no es una persona cualquiera. Es energía, creatividad y estilo.
+        Cuando entra en una habitación, sube el nivel automáticamente.
+    </p>
+
+    <div class="card-container">
+        <div class="card">
+            <h3>🔥 Carisma</h3>
+            <p>Tiene ese algo especial que no se puede explicar, pero se nota.</p>
+        </div>
+        <div class="card">
+            <h3>💡 Creatividad</h3>
+            <p>Ideas que brillan más que las luces de neón.</p>
+        </div>
+        <div class="card">
+            <h3>⚡ Energía</h3>
+            <p>Siempre al 100%, siempre al máximo nivel.</p>
+        </div>
+    </div>
+</section>
+
+<section style="background:#111;">
+    <h2>Frase Oficial</h2>
+    <p style="margin-top:2rem; font-size:1.5rem; font-weight:600;">
+        "No es que sea bueno... es que soy Antonio."
+    </p>
+</section>
+
+<footer>
+    © 2026 Antonio Domínguez - El que mola mazo 😎
+</footer>
+
+<script>
+function scrollToSection() {
+    document.getElementById("about").scrollIntoView({ behavior: "smooth" });
+}
+</script>
 
 </body>
 </html>
