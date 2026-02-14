@@ -31,12 +31,42 @@
         border-radius: 20px;
         backdrop-filter: blur(15px);
         box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        display: none; /* Oculto hasta que se valide contraseña */
+    }
+
+    .login-box {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.15);
+        padding: 40px;
+        border-radius: 20px;
+        backdrop-filter: blur(15px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    input {
+        padding: 10px;
+        font-size: 1em;
+        border-radius: 10px;
+        border: none;
+        margin-top: 15px;
+        width: 200px;
+        text-align: center;
+    }
+
+    button {
+        margin-top: 15px;
+        padding: 10px 25px;
+        border-radius: 20px;
+        border: none;
+        cursor: pointer;
+        font-size: 1em;
+        background: #38ef7d;
+        color: white;
     }
 
     h1 {
         color: white;
-        margin-bottom: 40px;
-        font-size: 2.5em;
+        margin-bottom: 20px;
     }
 
     .btn {
@@ -70,29 +100,66 @@
         font-size: 0.9em;
         opacity: 0.8;
     }
+
+    .error {
+        color: #ffdddd;
+        margin-top: 10px;
+    }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="login-box" id="loginBox">
+    <h1>🔒 Acceso Restringido</h1>
+    <input type="password" id="password" placeholder="Introduce la contraseña">
+    <br>
+    <button onclick="checkPassword()">Entrar</button>
+    <div class="error" id="errorMsg"></div>
+</div>
+
+<div class="container" id="mainContent">
     <h1>🌐 Portal de Acceso</h1>
 
-    <a href="https://quiz-25.space/" target="_blank" class="btn btn1">
-        Ir a Quiz Games
+    <a href="https://quiz-25./" target="_blank" class="btn btn1">
+        Ir a Quiz 25
     </a>
 
     <a href="https://iloveteachers.graphicon.org/" target="_blank" class="btn btn2">
-        Ir a Descapador
+        Ir a I Love Teachers
     </a>
 
     <footer>
-        © 2026 - Página creada por John Pork
+        © 2026 - Página creada en un solo HTML
     </footer>
 </div>
 
+<script>
+    const correctPassword = "Patricio";
+
+    function checkPassword() {
+        const userPassword = document.getElementById("password").value;
+        const errorMsg = document.getElementById("errorMsg");
+
+        if (userPassword === correctPassword) {
+            document.getElementById("loginBox").style.display = "none";
+            document.getElementById("mainContent").style.display = "block";
+        } else {
+            errorMsg.textContent = "❌ Contraseña incorrecta";
+        }
+    }
+
+    // Permitir presionar Enter
+    document.getElementById("password").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            checkPassword();
+        }
+    });
+</script>
+
 </body>
 </html>
+
 
 
 
