@@ -3,168 +3,264 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Antonio Domínguez - Mola Mazo</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+<title>Metro Runner PRO</title>
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Poppins', sans-serif;
-    }
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
+body{overflow:hidden;background:#111;color:white;}
+canvas{display:block;}
 
-    body {
-        background: linear-gradient(135deg, #111, #1f1f1f);
-        color: white;
-        overflow-x: hidden;
-    }
+.ui{
+position:absolute;top:10px;left:50%;transform:translateX(-50%);
+font-size:18px;text-shadow:0 0 8px cyan;z-index:5;
+}
 
-    header {
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        background: linear-gradient(45deg, #ff00cc, #3333ff);
-        animation: gradient 8s ease infinite alternate;
-    }
+.screen{
+position:absolute;width:100%;height:100%;
+background:rgba(0,0,0,0.85);
+display:flex;flex-direction:column;
+justify-content:center;align-items:center;
+z-index:10;text-align:center;
+}
 
-    @keyframes gradient {
-        0% { background: linear-gradient(45deg, #ff00cc, #3333ff); }
-        100% { background: linear-gradient(45deg, #00f2fe, #4facfe); }
-    }
-
-    header h1 {
-        font-size: 4rem;
-        font-weight: 800;
-        letter-spacing: 2px;
-        animation: fadeIn 2s ease;
-    }
-
-    header p {
-        font-size: 1.5rem;
-        margin-top: 1rem;
-        opacity: 0.9;
-        animation: fadeIn 3s ease;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .btn {
-        margin-top: 2rem;
-        padding: 1rem 2rem;
-        background: white;
-        color: #333;
-        border: none;
-        border-radius: 50px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-    .btn:hover {
-        background: #000;
-        color: white;
-        transform: scale(1.1);
-    }
-
-    section {
-        padding: 5rem 2rem;
-        text-align: center;
-    }
-
-    .card-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 2rem;
-        margin-top: 3rem;
-    }
-
-    .card {
-        background: #222;
-        padding: 2rem;
-        border-radius: 15px;
-        width: 280px;
-        transition: 0.3s;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    }
-
-    .card:hover {
-        transform: translateY(-10px);
-        background: #333;
-    }
-
-    footer {
-        padding: 2rem;
-        text-align: center;
-        background: #000;
-        font-size: 0.9rem;
-        opacity: 0.7;
-    }
-
-    @media(max-width: 768px) {
-        header h1 {
-            font-size: 2.5rem;
-        }
-        .card-container {
-            flex-direction: column;
-            align-items: center;
-        }
-    }
+button{
+padding:15px 30px;margin-top:20px;
+background:cyan;border:none;border-radius:10px;
+font-size:18px;cursor:pointer;
+}
 </style>
 </head>
 <body>
 
-<header>
-    <h1>Antonio Domínguez</h1>
-    <p>Simplemente... MOLA MAZO 🚀</p>
-    <button class="btn" onclick="scrollToSection()">Descubre más</button>
-</header>
+<div class="ui">
+🏆 <span id="score">0</span> |
+💎 <span id="coins">0</span> |
+✖️ <span id="mult">1</span> |
+🥇 <span id="record">0</span>
+</div>
 
-<section id="about">
-    <h2>¿Quién es Antonio?</h2>
-    <p style="margin-top:1rem; max-width:600px; margin-left:auto; margin-right:auto;">
-        Antonio Domínguez no es una persona cualquiera. Es energía, creatividad y estilo.
-        Cuando entra en una habitación, sube el nivel automáticamente.
-    </p>
+<div class="screen" id="menu">
+<h1>METRO RUNNER PRO</h1>
+<p>← → moverse | ↑ saltar | ↓ rodar</p>
+<button onclick="start()">JUGAR</button>
+</div>
 
-    <div class="card-container">
-        <div class="card">
-            <h3>🔥 Carisma</h3>
-            <p>Tiene ese algo especial que no se puede explicar, pero se nota.</p>
-        </div>
-        <div class="card">
-            <h3>💡 Creatividad</h3>
-            <p>Ideas que brillan más que las luces de neón.</p>
-        </div>
-        <div class="card">
-            <h3>⚡ Energía</h3>
-            <p>Siempre al 100%, siempre al máximo nivel.</p>
-        </div>
-    </div>
-</section>
+<div class="screen" id="gameover" style="display:none;">
+<h1>GAME OVER</h1>
+<p id="finalScore"></p>
+<button onclick="restart()">REINTENTAR</button>
+</div>
 
-<section style="background:#111;">
-    <h2>Frase Oficial</h2>
-    <p style="margin-top:2rem; font-size:1.5rem; font-weight:600;">
-        "No es que sea bueno... es que soy Antonio."
-    </p>
-</section>
-
-<footer>
-    © 2026 Antonio Domínguez - El que mola mazo 😎
-</footer>
+<canvas id="game"></canvas>
 
 <script>
-function scrollToSection() {
-    document.getElementById("about").scrollIntoView({ behavior: "smooth" });
-}
-</script>
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;
+canvas.height=innerHeight;
 
+let center=canvas.width/2;
+let lanes=[-120,0,120];
+
+let player={
+lane:1,targetLane:1,
+x:0,y:canvas.height-150,
+w:40,h:60,
+vy:0,
+jump:false,
+roll:false,
+magnet:false
+};
+
+let objects=[];
+let score=0,coins=0,mult=1;
+let speed=8;
+let running=false;
+let record=localStorage.getItem("metro_record")||0;
+document.getElementById("record").textContent=record;
+
+function drawBackground(){
+let g=ctx.createLinearGradient(0,0,0,canvas.height);
+g.addColorStop(0,"#0f2027");
+g.addColorStop(1,"#203a43");
+ctx.fillStyle=g;
+ctx.fillRect(0,0,canvas.width,canvas.height);
+}
+
+function drawTracks(){
+ctx.strokeStyle="cyan";
+ctx.lineWidth=4;
+for(let i=0;i<3;i++){
+ctx.beginPath();
+ctx.moveTo(center+lanes[i]-80,canvas.height);
+ctx.lineTo(center+lanes[i]*0.3,0);
+ctx.stroke();
+}
+}
+
+function updatePlayer(){
+player.lane+=(player.targetLane-player.lane)*0.2;
+
+if(player.jump){
+player.vy+=0.8;
+player.y+=player.vy;
+if(player.y>=canvas.height-150){
+player.y=canvas.height-150;
+player.jump=false;
+player.vy=0;
+}
+}
+
+ctx.fillStyle="cyan";
+ctx.fillRect(center+lanes[Math.round(player.lane)]-20,player.y,
+player.w,player.roll?30:60);
+}
+
+function spawn(){
+let lane=Math.floor(Math.random()*3);
+let r=Math.random();
+
+if(r<0.4) objects.push({lane,y:-200,type:"train"});
+else if(r<0.7) objects.push({lane,y:-100,type:"barrier"});
+else objects.push({lane,y:-50,type:"coin"});
+}
+
+function drawObjects(){
+objects.forEach((o,i)=>{
+o.y+=speed;
+
+let x=center+lanes[o.lane];
+
+if(o.type==="train"){
+ctx.fillStyle="red";
+ctx.fillRect(x-40,o.y,80,200);
+if(collide(o,80,200)) end();
+}
+else if(o.type==="barrier"){
+ctx.fillStyle="orange";
+ctx.fillRect(x-30,o.y,60,60);
+if(!player.roll && collide(o,60,60)) end();
+}
+else{
+ctx.fillStyle="gold";
+ctx.beginPath();
+ctx.arc(x,o.y,12,0,Math.PI*2);
+ctx.fill();
+
+if(player.magnet){
+if(Math.abs(x-(center+lanes[Math.round(player.lane)]))<150){
+o.lane=Math.round(player.lane);
+}
+}
+
+if(collide(o,30,30)){
+coins++;
+if(coins%20===0) activateMagnet();
+objects.splice(i,1);
+}
+}
+
+if(o.y>canvas.height){
+objects.splice(i,1);
+score+=mult;
+}
+});
+}
+
+function collide(o,w,h){
+let px=center+lanes[Math.round(player.lane)]-20;
+let py=player.y;
+return px < center+lanes[o.lane]+w/2 &&
+px+40 > center+lanes[o.lane]-w/2 &&
+py < o.y+h &&
+py+60 > o.y;
+}
+
+function activateMagnet(){
+player.magnet=true;
+mult=2;
+document.getElementById("mult").textContent=mult;
+setTimeout(()=>{
+player.magnet=false;
+mult=1;
+document.getElementById("mult").textContent=mult;
+},6000);
+}
+
+function update(){
+if(!running)return;
+
+drawBackground();
+drawTracks();
+updatePlayer();
+drawObjects();
+
+speed+=0.003;
+
+document.getElementById("score").textContent=score;
+document.getElementById("coins").textContent=coins;
+
+requestAnimationFrame(update);
+}
+
+function start(){
+document.getElementById("menu").style.display="none";
+running=true;
+setInterval(spawn,700);
+update();
+}
+
+function end(){
+running=false;
+if(score>record){
+localStorage.setItem("metro_record",score);
+}
+document.getElementById("finalScore").textContent=
+"Puntos: "+score+" | Monedas: "+coins;
+document.getElementById("gameover").style.display="flex";
+}
+
+function restart(){
+location.reload();
+}
+
+document.addEventListener("keydown",(e)=>{
+if(e.key==="ArrowLeft" && player.targetLane>0) player.targetLane--;
+if(e.key==="ArrowRight" && player.targetLane<2) player.targetLane++;
+if(e.key==="ArrowUp" && !player.jump){
+player.jump=true;
+player.vy=-15;
+}
+if(e.key==="ArrowDown"){
+player.roll=true;
+setTimeout(()=>player.roll=false,600);
+}
+});
+
+/* Swipe móvil */
+let startX,startY;
+canvas.addEventListener("touchstart",(e)=>{
+startX=e.touches[0].clientX;
+startY=e.touches[0].clientY;
+});
+canvas.addEventListener("touchend",(e)=>{
+let dx=e.changedTouches[0].clientX-startX;
+let dy=e.changedTouches[0].clientY-startY;
+
+if(Math.abs(dx)>Math.abs(dy)){
+if(dx>30 && player.targetLane<2) player.targetLane++;
+if(dx<-30 && player.targetLane>0) player.targetLane--;
+}else{
+if(dy<-30 && !player.jump){
+player.jump=true;
+player.vy=-15;
+}
+if(dy>30){
+player.roll=true;
+setTimeout(()=>player.roll=false,600);
+}
+}
+});
+</script>
 </body>
 </html>
+
